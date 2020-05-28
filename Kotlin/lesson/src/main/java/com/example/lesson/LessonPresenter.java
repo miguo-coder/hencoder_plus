@@ -29,7 +29,7 @@ class LessonPresenter {
     }.getType();
 
     void fetchData() {
-        HttpClient.INSTANCE.get(LESSON_PATH, type, new EntityCallback<List<Lesson>>() {
+        HttpClient.Companion.getINSTANCE().get(LESSON_PATH, type, new EntityCallback<List<Lesson>>() {
             @Override
             public void onSuccess(@NonNull final List<Lesson> lessons) {
                 LessonPresenter.this.lessons = lessons;
