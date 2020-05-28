@@ -13,7 +13,7 @@ class HttpClient: OkHttpClient() {
     }
 
     open fun <T> get(path:String, type: Type, entityCallback: EntityCallback<T>) {
-        val request = Request.Builder().url("https://api.hencoder.com/$path").build();
+        val request = Request.Builder().url("https://api.hencoder.com/${path}").build();
         val call = INSTANCE.newCall(request)
 
         call.enqueue(object : Callback {
@@ -23,7 +23,7 @@ class HttpClient: OkHttpClient() {
 
             override fun onResponse(call: Call, response: Response) {
                 when(response.code()) {
-                    in 200..299 -> entityCallback.onSuccess(convert(response.body().toString(), type) as T)
+                    in 200..299 -> return entityCallback.onSuccess(convert(response.body()!!.string(), type) as T)
                     in 400..499 -> entityCallback.onFailure("客户端错误")
                     in 500..599 -> entityCallback.onFailure("服务端错误")
                     else -> entityCallback.onFailure("未知错误")
